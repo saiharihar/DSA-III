@@ -1,0 +1,38 @@
+#include<iostream>
+#include<vector>
+#include<cmath>
+using namespace std;
+bool subset(vector<int>&a,int n,int tar){
+    vector<vector<bool>>dp(n+1,vector<bool>(tar+1,false));
+    for(int j=0;j<=n;j++){
+        dp[j][0]=true;
+    }
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=tar;j++){
+            if(a[i-1]>j){
+                dp[i][j]=dp[i-1][j];
+            }
+            else{
+                dp[i][j]=dp[i-1][j]||dp[i-1][j-a[i-1]];
+            }
+        }
+    }
+    return dp[n][tar];
+}
+int main(){
+    int n;
+    cin>>n;
+    vector<int>a(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+    }
+    int tar;
+    cin>>tar;
+    bool k=subset(a,n,tar);
+    if(k){
+        cout<<"true"<<endl;
+    }
+    else{
+        cout<<"false"<<endl;
+    }
+}

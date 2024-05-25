@@ -1,0 +1,35 @@
+#include<iostream>
+#include<vector>
+#include<cmath>
+using namespace std;
+bool subset(vector<int>&a,int n,int tar){
+    if(tar==0){
+        return true;
+    }
+    if(n==0 && tar!=0){
+        return false;
+    }
+    if(a[n-1]>tar){
+        return subset(a,n-1,tar);
+    }
+    else{
+        return subset(a,n-1,tar-a[n-1])|| subset(a,n-1,tar);
+    }
+}
+int main(){
+    int n;
+    cin>>n;
+    vector<int>a(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+    }
+    int tar;
+    cin>>tar;
+    bool k=subset(a,n,tar);
+    if(k){
+        cout<<"true"<<endl;
+    }
+    else{
+        cout<<"false"<<endl;
+    }
+}
