@@ -1,0 +1,52 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+string lcs(string s1, string s2, int n, int m) {
+    vector<vector<string>> dp(n + 1, vector<string>(m + 1));
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= m; j++) {
+            if (i == 0 || j == 0) {
+                dp[i][j] = "";
+            } else if (s1[i - 1] == s2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1] + s1[i - 1];
+            } else {
+                dp[i][j] = (dp[i - 1][j].size() > dp[i][j - 1].size()) ? dp[i - 1][j] : dp[i][j - 1];
+            }
+        }
+    }
+    return dp[n][m];
+}
+
+int main() {
+    string s1, s2;
+    cout << "Enter string s1:" << endl;
+    getline(cin, s1);
+    cout << "Enter string s2:" << endl;
+    getline(cin, s2);
+    int n = s1.size();
+    int m = s2.size();
+    string res = lcs(s1, s2, n, m);
+    cout << "LCS of the two strings is: " << res << endl;
+
+    int ptr1 = 0, ptr2 = 0;
+    string ans = "";
+    for (char c : res) {
+        while (ptr1 < n && s1[ptr1] != c) {
+            ans += s1[ptr1++];
+        }
+        while (ptr2 < m && s2[ptr2] != c) {
+            ans += s2[ptr2++];
+        }
+        ans += c;
+        ptr1++;
+        ptr2++;
+    }
+    ans += s1.substr(ptr1) + s2.substr(ptr2);
+
+    cout << "Length of shortest super sequence is: " << ans.size() << endl;
+    cout << "Shortest super sequence is: " << ans << endl;
+
+    return 0;
+}
