@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int kadanes(vector<int>k){
+        int max_sum=k[0],c_sum=k[0];
+        for(int i=1;i<k.size();i++){
+            c_sum=max(c_sum+k[i],k[i]);
+            max_sum=max(c_sum,max_sum);
+        }
+        return max_sum;
+    }
+
+    int maxSubarraySumCircular(vector<int>& nums) {
+        int q1=kadanes(nums);
+        int sum1=accumulate(nums.begin(),nums.end(),0);
+
+        vector<int>a(nums.size());
+        for(int i=0;i<nums.size();i++){
+            a[i]=0-nums[i];
+        }
+        int q2=kadanes(a);
+        int sum2=-q2;
+
+        int max_total=sum1-sum2;
+        if(max_total==0){
+            return q1;
+        }
+            return max(q1,max_total);
+    }
+};
