@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std;
+int mcm(vector<int>& a, int l, int r) {
+    if (l == r) {
+        return 0;
+    }
+    int res = INT_MAX;
+    int cost;
+    for (int i = l; i < r; i++) {
+        cost = mcm(a, l, i) + mcm(a, i+1, r) + (a[l-1] * a[i] * a[r]);
+        res = min(res, cost);
+    }
+    return res;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    cout << mcm(a, 1, n - 1);
+
+    return 0;
+}
